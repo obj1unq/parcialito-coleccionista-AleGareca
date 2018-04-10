@@ -66,9 +66,28 @@
 
 // PUNTO 1: COLECCIONES
 object coleccionista {
+	var property elementos= #{}
 	
-	//TODO: Completar la implementacion de este objeto		
+		method agregarElemento(unElemento)=elementos.add(unElemento)
+		
+		method quitarElemento(unElemento)=elementos.remove(unElemento)       
+	
+		method objetosFragiles()=elementos.filter({elemento=>elemento.esFragil()})
+		
+		method objetoFragilMasCaro()=self.objetosFragiles().max({elemento=>elemento.valor()})
 
+		method valorEnObjetosFragiles() =self.objetosFragiles().sum({elemento=>elemento.valor()})
+		
+		method elementosDeCategoria(_categoria)=elementos.filter({elemento=>elemento.categoria()==_categoria})
+				
+		method valorEnCategoria(unaCategoria)=self.elementosDeCategoria(unaCategoria).sum({elemento=>elemento.valor()})
+	
+		method existeElementoDe(unaCategoria)=elementos.any({elemento=>elemento.categoria()==unaCategoria})
+		
+		method categorias()=elementos.map({elemento=>elemento.categoria()}).asSet()
+			
+		method todosValiosos()=elementos.all({elemento=>elemento.valor()>600})
+		
 }
 
 
@@ -108,8 +127,39 @@ object musica {
 
 // PUNTO 2: POLIMORFISMO. 
 object guitarraElectrica {
-   //TODO Completar la implementacion de este objeto
+	var estuche
+	var microfono 
+   	method esFragil() =estuche.esFragil()  
+	method valor() = 10000 + microfono.valor()	
+	method categoria() = musica
+	method agregarMicrofono(unMicrofono){
+		microfono= unMicrofono
+	}
+	method agregarEstuche(unEstuche){
+		estuche=unEstuche
+	}
 }
 
-//TODO: agregar los objetos que falten! Si no agregaste ninguno repensá tu solución; pista: el punto se llama "POLIMORFISMO" 
-
+object microfonoGibson{
+	method esFragil() = true
+	method valor() = 1000	
+	method categoria() = musica
+}
+ object microfonoDiMarzio{
+ 	method esFragil() = true
+	method valor() = 800	
+	method categoria() = musica
+ }
+ 
+ object estucheRigido{
+ 	method esFragil() = false
+	method valor() = 0	
+	method categoria() = musica
+ }
+ 
+ object estucheFlexible{
+ 	method esFragil() = true
+	method valor() = 0	
+	method categoria() = musica
+ }
+ 
